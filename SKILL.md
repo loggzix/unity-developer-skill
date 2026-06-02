@@ -38,7 +38,6 @@ This skill enforces comprehensive Unity development standards with **CODE QUALIT
 **Priority 1: Code Quality & Hygiene (MOST IMPORTANT — applies to BOTH architectures)**
 
 - Access modifiers <!-- removed: nullable reference types, fix all warnings -->
-
 - Prefer throwing exceptions over swallowing errors (see logging note per architecture)
 - `readonly`/`const`, `nameof`
 <!-- - No inline comments (use descriptive names) -->
@@ -73,12 +72,12 @@ This skill enforces comprehensive Unity development standards with **CODE QUALIT
 ALWAYS enforce these BEFORE writing any code, regardless of architecture:
 
 <!-- 1. **Enable nullable reference types** — No nullable warnings allowed -->
-2. **Use least accessible access modifier** — `private` by default
+1. **Use least accessible access modifier** — `private` by default
 <!-- 3. **Fix ALL warnings** — Zero tolerance for compiler warnings -->
-4. **Handle errors deliberately** — Throw exceptions for truly exceptional cases; only log-and-continue when there is a real fallback
-5. **Use `readonly` for fields** — Mark fields that aren't reassigned
-6. **Use `const` for constants** — Constants should be `const`, not `readonly`
-7. **Use `nameof` for strings** — Never hardcode property/parameter names
+2. **Handle errors deliberately** — Throw exceptions for truly exceptional cases; only log-and-continue when there is a real fallback
+3. **Use `readonly` for fields** — Mark fields that aren't reassigned
+4. **Use `const` for constants** — Constants should be `const`, not `readonly`
+5. **Use `nameof` for strings** — Never hardcode property/parameter names
 <!-- 9. **No inline comments** — Use descriptive names; code should be self-explanatory -->
 
 ```csharp
@@ -133,6 +132,11 @@ Use this when STEP 0 picked Singleton. **This is the recommended default for 1�
 - ✅ Logging: `Debug.Log`/`Debug.LogError` is acceptable in runtime; a `[ClassName]` prefix is encouraged for traceability.
 - ✅ Use UniTask for async; thread a `CancellationToken` through awaits.
 
+<!-- TODO (a): The project ALREADY has Singleton<T> / StaticInstance<T> / PersistentSingleton<T>
+     in Assets/_TrollGame/_AlienCode/Singleton.cs — do NOT redefine them (duplicate class = compile error).
+     Inherit the existing base instead. The illustrative base-class definition below is commented out;
+     replace later with a reference to the real file.
+
 ### Singleton base class
 
 ```csharp
@@ -163,6 +167,7 @@ public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehavi
     protected override void Awake() { base.Awake(); DontDestroyOnLoad(gameObject); }
 }
 ```
+-->
 
 ### Example manager
 
